@@ -8,7 +8,7 @@ namespace EyeSharp;
 public class Pet
 {
     /// <summary>
-    /// What pet it is
+    /// The pet's name
     /// </summary>
     public string Name { get; }
     /// <summary>
@@ -69,9 +69,17 @@ public class Pet
             "Avian" => PetFamily.Avian,
             "Humanoid" => PetFamily.Humanoid,
             "Reptile" => PetFamily.Reptile,
-            "Automation" => PetFamily.Automation,
+            "Automation" => PetFamily.Automaton,
             "Insect" => PetFamily.Insect,
             "Penguin" => PetFamily.Penguin,
+            "Aquatic" => PetFamily.Aquatic,
+            "Canine" => PetFamily.Canine,
+            "Feline" => PetFamily.Feline,
+            "Exotic" => PetFamily.Exotic,
+            "Farm" => PetFamily.Farm,
+            "Spooky" => PetFamily.Spooky,
+            "Woodland" => PetFamily.Woodland,
+            "? ? ? ?" => PetFamily.Miscellaneous,
             _ => PetFamily.Avian
         };
     }
@@ -109,6 +117,7 @@ public class PetAbility
             "Savage" => PetAbilityType.Savage,
             "Rising Fury" => PetAbilityType.RisingFury,
             "Attack Close" => PetAbilityType.AttackClose,
+            "Decoy" => PetAbilityType.Decoy,
             _ => PetAbilityType.None
         };
     }
@@ -139,7 +148,8 @@ public enum PetAbilityType
     AttackMid,
     Savage,
     RisingFury,
-    AttackClose
+    AttackClose,
+    Decoy
 }
 
 /// <summary>
@@ -150,7 +160,15 @@ public enum PetFamily
     Avian,
     Humanoid,
     Reptile,
-    Automation,
+    Automaton,
     Insect,
-    Penguin
+    Penguin,
+    Aquatic,
+    Canine,
+    Exotic,
+    Farm,
+    Feline,
+    Spooky,
+    Woodland,
+    Miscellaneous
 }
