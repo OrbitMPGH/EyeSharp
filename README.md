@@ -8,6 +8,15 @@ Based on [TheNorthJyde's](https://github.com/TheNorthJyde) repository [RealmeyeS
 # Basic usage
 All interactions with EyeSharp is done through the RealmEyeClient class.
 
+```
+
+!! Keep in mind that for every call you do via RealmEyeClient is a web request to RealmEye.
+
+You could potantially get rate-limited if these calls are done often enough.
+
+In that case, you would need to implement a rate limiter to not spam these endpoints
+```
+
 ## Getting a user
 First create an instance of RealmEye
 
