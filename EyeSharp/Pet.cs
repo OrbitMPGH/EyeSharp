@@ -38,7 +38,7 @@ public class Pet
     
     internal Pet(HtmlNode row)
     {
-        Name = row.SelectSingleNode("td[2]").InnerText;
+        Name = RealmEyeClient.FixString(row.SelectSingleNode("td[2]").InnerText);
         Rarity = ToPetRarity(row.SelectSingleNode("td[3]").InnerText);
         Family = ToPetFamily(row.SelectSingleNode("td[4]").InnerText);
 

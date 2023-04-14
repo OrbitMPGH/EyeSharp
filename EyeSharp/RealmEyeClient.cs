@@ -112,36 +112,36 @@ public class RealmEyeClient
 
         foreach (var row in table.SelectNodes("tbody/tr"))
         {
-            var t = row.SelectSingleNode("td[6]").ChildNodes.Count == 5;
+            var t = row.SelectSingleNode($"td[7]").ChildNodes.Count == 5;
 
-            var weapon = FixItemString(row.SelectSingleNode("td[6]").FirstChild.FirstChild.ChildNodes.Count == 1
-                ? row.SelectSingleNode("td[6]").FirstChild.FirstChild.FirstChild.Attributes[1].Value
-                : row.SelectSingleNode("td[6]").FirstChild.FirstChild.Attributes[1].Value);
+            var weapon = FixString(row.SelectSingleNode($"td[7]").FirstChild.FirstChild.ChildNodes.Count == 1
+                ? row.SelectSingleNode("td[7]").FirstChild.FirstChild.FirstChild?.Attributes[1]?.Value
+                : row.SelectSingleNode("td[7]").FirstChild.FirstChild?.Attributes[1]?.Value);
 
-            var ability = FixItemString(row.SelectSingleNode("td[6]").FirstChild.NextSibling.FirstChild.ChildNodes.Count == 1
-                ? row.SelectSingleNode("td[6]").FirstChild.NextSibling.FirstChild.FirstChild.Attributes[1].Value
-                : row.SelectSingleNode("td[6]").FirstChild.NextSibling.FirstChild.Attributes[1].Value);
+            var ability = FixString(row.SelectSingleNode("td[7]").FirstChild.NextSibling.FirstChild.ChildNodes.Count == 1
+                ? row.SelectSingleNode("td[7]").FirstChild.NextSibling.FirstChild.FirstChild?.Attributes[1]?.Value
+                : row.SelectSingleNode("td[7]").FirstChild.NextSibling.FirstChild?.Attributes[1]?.Value);
 
-            var armor = FixItemString(row.SelectSingleNode("td[6]").FirstChild.NextSibling.NextSibling.FirstChild.ChildNodes.Count ==
+            var armor = FixString(row.SelectSingleNode("td[7]").FirstChild.NextSibling.NextSibling.FirstChild.ChildNodes.Count ==
                                       1
-                    ? row.SelectSingleNode("td[6]").FirstChild.NextSibling.NextSibling.FirstChild.FirstChild
-                        .Attributes[1].Value
-                    : row.SelectSingleNode("td[6]").FirstChild.NextSibling.NextSibling.FirstChild.Attributes[1]
-                        .Value);
+                    ? row.SelectSingleNode("td[7]").FirstChild.NextSibling.NextSibling.FirstChild.FirstChild
+                        ?.Attributes[1]?.Value
+                    : row.SelectSingleNode("td[7]").FirstChild.NextSibling.NextSibling.FirstChild?.Attributes[1]
+                        ?.Value);
 
-            var ring = FixItemString(row.SelectSingleNode("td[6]").FirstChild.NextSibling.NextSibling.NextSibling.FirstChild
+            var ring = FixString(row.SelectSingleNode("td[7]").FirstChild.NextSibling.NextSibling.NextSibling.FirstChild
                 .ChildNodes
                 .Count == 1
-                ? row.SelectSingleNode("td[6]").FirstChild.NextSibling.NextSibling.NextSibling.FirstChild
-                    .FirstChild.Attributes[1].Value
-                : row.SelectSingleNode("td[6]").FirstChild.NextSibling.NextSibling.NextSibling.FirstChild
-                    .Attributes[1].Value);
+                ? row.SelectSingleNode("td[7]").FirstChild.NextSibling.NextSibling.NextSibling.FirstChild
+                    .FirstChild?.Attributes[1]?.Value
+                : row.SelectSingleNode("td[7]").FirstChild.NextSibling.NextSibling.NextSibling.FirstChild
+                    ?.Attributes[1]?.Value);
 
-            var name = row.SelectSingleNode("td[2]").InnerText;
-            var lvl = Convert.ToInt32(row.SelectSingleNode("td[3]").InnerText);
-            var fame = Convert.ToInt32(row.SelectSingleNode("td[4]").InnerText);
+            var name = row.SelectSingleNode("td[3]").InnerText;
+            var lvl = Convert.ToInt32(row.SelectSingleNode("td[4]").InnerText);
+            var fame = Convert.ToInt32(row.SelectSingleNode("td[5]").InnerText);
             var equipment = new ClassEquipment(weapon, ability, armor, ring);
-            var stats = row.SelectSingleNode("td[7]").InnerText;
+            var stats = row.SelectSingleNode("td[8]").InnerText;
             
             user.Characters.Add(new Character(name,
                 lvl,
@@ -153,9 +153,9 @@ public class RealmEyeClient
         return user;
     }
 
-    private string FixItemString(string itemName)
+    internal static string FixString(string itemName)
     {
-        return itemName.Replace("&apos;", "'");
+        return itemName?.Replace("&apos;", "'");
     }
 
     /// <summary>
@@ -315,8 +315,8 @@ public class RealmEyeClient
         var exaltationList = new List<Exaltation>();
         var totalString = exaltations.Split('/')[0].Trim();
         userExalt.TotalExaltations = int.TryParse(totalString, out var total) ? total : 0;
-        var doneString = exaltations.Split('/')[1].Trim().Split('~')[0].Trim().Replace("&nbsp;", "");
-        userExalt.PercentageDone = userExalt.TotalExaltations / double.Parse(doneString);
+        var doneString = exaltations.Split('/')[1].Trim().Split('~')[1].Replace("&nbsp;", "").Replace("~", "").Replace("%", "").Trim();
+        userExalt.PercentageDone = double.TryParse(doneString, out var done) ? done : 0;
         
         var table = page.Html.CssSelect(".table-responsive").First().LastChild;
 

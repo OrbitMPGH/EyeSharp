@@ -111,6 +111,12 @@ namespace EyeSharp;
 
         internal Item(string htmlInput)
         {
+            if (htmlInput == null)
+            {
+                Name = "Not Equipped";
+                Rarity = ItemRarity.None;
+                return;
+            }
             var rarity = htmlInput.Remove(htmlInput.Length - 3);
             Name = htmlInput.Substring(0, htmlInput.Length - 3);
             Rarity = ToItemRarity(rarity);
@@ -118,7 +124,7 @@ namespace EyeSharp;
 
         private ItemRarity ToItemRarity(string input)
         {
-            return input.ToUpper() switch
+            return input?.ToUpper() switch
             {
                 "T1" => ItemRarity.T1,
                 "T2" => ItemRarity.T2,
@@ -136,7 +142,7 @@ namespace EyeSharp;
                 "T14" => ItemRarity.T14,
                 "ST" => ItemRarity.St,
                 "UT" => ItemRarity.Ut,
-                _ => ItemRarity.Ut
+                _ => ItemRarity.None
             };
         }
     }
@@ -146,6 +152,7 @@ namespace EyeSharp;
     /// </summary>
     public enum ItemRarity
     {
+        None,
         T1,
         T2,
         T3,
