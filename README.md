@@ -1,45 +1,80 @@
-# RealmeyeSharp not up to date
-[Realmeye](https://www.realmeye.com/) SDK that gets information of [realmeye](https://www.realmeye.com/) to mostly string variable in C#
+# EyeSharp ![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FOrbitMPGH%2FEyeSharp&countColor=%23263759)
+Makes it easy to gather and interact with data from [Realmeye](https://www.realmeye.com/)
 
-I have made it using web scraping.
-# Example
-Go to tester and look at the Program.cs for more help.
+They have no official API, therefore EyeSharp uses WebScraping to get all the information.
 
-How to use:
+Based on [TheNorthJyde's](https://github.com/TheNorthJyde) repository [RealmeyeSharp](https://github.com/TheNorthJyde/RealmeyeSharp)
 
-User user = new User()
+# Basic usage
+All interactions with EyeSharp is done through the RealmEyeClient class.
 
-Realm.GetAllUserInfo(String IGN, User user)
+```
 
-you need to use Summary before you can use anything else.
+!! Keep in mind that for every call you do via RealmEyeClient is a web request to RealmEye.
 
-Realm.GetUserSummary(string IGN, User user)
+You could potantially get rate-limited if these calls are done often enough.
 
-Realm.GetUserPetStats(User user)
+In that case, you would need to implement a rate limiter to not spam these endpoints
+```
 
-Realm.GetUserDescription(User user)
+## Getting a user
+First create an instance of RealmEye
 
-Realm.GetUserClasses(User user).
+``var api = new RealmEyeClient()``
 
-and to use the data use
-User user = new User();
-user.Name and etc
+Then you can get a user with their in-game name:
 
-or you can look at my [Test / Example](Tester/Program.cs)
+``var user = await api.GetUser(ign);``
 
-# MyNuget
-Install-Package RealmeyeSharp -Version 2.2.0
+# Information available
+You can get the following information using just an in-game name:
 
-Or use My NuGet Package manager and search after: RealmeyeSharp
+## User
+* Name
+* Description
+* Amount of Characters
+* Amount of Skins
+* Fame
+* Rank
+* Account Fame
+* Guild
+* Guild Rank
+* Creation time
+* Characters
+
+## Pet
+* Name
+* Rarity
+* Family
+* Ability 1
+* Ability 2
+* Ability 3
+* Max Level
+
+## Guild
+* Name
+* Member Count
+* Characters
+* Fame
+* Most Active On
+* Description
+* Members
+
+## Guild Member
+* Name
+* Guild Rank
+* Fame
+* Rank
+* Characters
+
+## Exaltations
+* Percentage done
+* Total amount of exaltaitons
+* List of all exaltations for each exalted class
 
 # License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-# Author
-My IGN in realm is: [Celestial](https://www.realmeye.com/player/Celestial)
-
-# Helper
-
-Additions made by: 
-Github: [Argocyte](https://github.com/Argocyte/)
-Realmeye: [Argocyte](https://www.realmeye.com/player/Argocyte)
+# Credits
+* [Orbit](https://github.com/OrbitMPGH) - Current maintainer
+* [Argocyte](https://github.com/Argocyte/) - Created old RealmeyeSharp
